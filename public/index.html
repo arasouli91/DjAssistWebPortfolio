@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DjAssist</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3 track">
+        <div class="track-info">
+          <h4>Track 1:</h4>
+          <p id="track1">Song A</p>
+        </div>
+        <div id="track1CueGrid" class="cue-grid-container">
+          <!-- Cue grid for Track 1 will be populated here -->
+        </div>
+      </div>
+      <div class="col-3 transition-type">
+        <h5>Transition <span id="transitionArrow">🡆</span></h5>
+        <div id="transitionGrid" class="overflow-grid">
+          <!-- Buttons for transition type will be populated here -->
+        </div>
+        <h5 id="modifierTitle" style="display: none;"></h5>
+        <div id="modifiersGrid" class="overflow-grid" style="display: none;">
+          <!-- Buttons for modifiers will be populated here -->
+        </div>
+      </div>
+      <div class="col-3 track">
+        <div class="track-info">
+          <h4>Track 2:</h4>
+          <p id="track2">Song B</p>
+        </div>
+        <div id="track2CueGrid" class="cue-grid-container">
+          <!-- Cue grid for Track 2 will be populated here -->
+        </div>
+      </div>
+      <div class="col-3 d-flex flex-column align-items-end menu-col">
+        <div class="d-flex flex-row">
+          <button id="savePathsButton" class="transition-button btn btn-primary mb-2">P</button>
+          <button id="refreshTracksButton" class="transition-button btn btn-primary mb-2">Refresh</button>
+          <button id="toggleDirectionButton" class="transition-button btn btn-primary mb-2">🡆</button>
+        </div>
+        <button id="saveTransitionButton" class="transition-button btn btn-primary">Save Transition</button>
+        <textarea title="comments" id="commentBox"></textarea>
+      </div>      
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-8">
+        <h5 id="songListTitle">Available Songs:</h5>
+        <div id="songList" class="song-list overflow-auto">
+          <!-- List of songs will be populated here -->
+        </div>
+      </div>
+      <div class="col-4">
+        <div id="detailsPanel">
+          <h2>Transition Details</h2>
+          <div class="detailSection">
+              <span class="detailLabel">Track2 Title:</span>
+              <span class="detailValue" id="track2Title"></span>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">BPM & Genre:</span>
+              <span class="detailValue" id="bpmAndGenre"></span>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">Track1 Cue:</span>
+              <span class="detailValue" id="track1Cue"></span>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">Track2 Cue:</span>
+              <span class="detailValue" id="track2Cue"></span>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">Transition Type:</span>
+              <span class="detailValue" id="transitionType"></span>
+          </div>
+          <div class="detailSection">
+            <span class="detailLabel">Modifiers:</span>
+            <ul class="modifierList" id="transitionModifiers"></ul>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">Comment:</span>
+              <span class="detailValue" id="transitionComment"></span>
+          </div>
+          <div class="detailSection">
+              <span class="detailLabel">Rating:</span>
+              <span class="detailValue" id="transitionRating"></span>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-- The Modal -->
+  <div class="modal" id="confirmationModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header justify-content-center">
+          <h4 class="modal-title" id="track1TitleModal">Track 1 Title</h4>
+          <span id="transitionArrowModal" class="modal-title-arrow">&#10145;</span>
+          <h4 class="modal-title" id="track2TitleModal">Track 2 Title</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <!-- Transition Details Column -->
+            <div class="col-md-8">
+              <div class="detailSection">
+                <h5 class="detailLabel">Track 1 Cue:</h5>
+                <p class="detailValue" id="track1CueModal">- (Pos: -)</p>
+              </div>
+              <div class="detailSection">
+                <h5 class="detailLabel">Track 2 Cue:</h5>
+                <p class="detailValue" id="track2CueModal">- (Pos: -)</p>
+              </div>
+              <div class="detailSection">
+                <h5 class="detailLabel">Transition Type:</h5>
+                <p class="detailValue" id="transitionTypeModal">-</p>
+              </div>
+              <div class="detailSection">
+                <h5 class="detailLabel">Modifiers:</h5>
+                <ul class="modifierList" id="transitionModifiersModal"></ul>
+              </div>
+            </div>
+
+            <!-- Comment Box Column -->
+            <div class="col-md-4">
+              <div class="detailSection">
+                <h5 class="detailLabel">Comment:</h5>
+                <textarea title="comments" class="form-control" id="transitionCommentModal" rows="8"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="confirmSave">Save</button>
+          <button type="button" class="btn btn-secondary" id="cancelSaveTransition" data-dismiss="modal">Cancel</button>
+          <!-- Insert rating bar here -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
